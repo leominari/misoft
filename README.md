@@ -1,9 +1,10 @@
 
 # Misoft Comercial
 
-| Versão   | Oque foi feito?                                             |
-| -------- | ----------------------------------------------------------- |
-| v0.1     | `Inicialização`                                             |
+| Versão | Oque foi feito?           |
+|--------|---------------------------|
+| v0.1   | `Inicialização`           |
+| v0.2   | `Padronização do Projeto` |
 
  - [X] Tela Login
  - [ ] Tela Cadastro Cliente
