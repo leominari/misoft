@@ -6,12 +6,13 @@
 package controller;
 
 import classes.Endereco;
-import javafx.event.ActionEvent;
 
 
 public class CadastroClienteController {
 
-    public void completaCep(ActionEvent event) {
+    public Endereco completaCep(String cep) {
         Endereco cliente = new Endereco();
+        cliente.buscaCep(cep);
+        return cliente;
     }
 }

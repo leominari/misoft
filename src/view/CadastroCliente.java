@@ -8,6 +8,7 @@ package view;
 import classes.Endereco;
 import javax.swing.JOptionPane;
 import controller.CadastroClienteController;
+
 /**
  *
  * @author leo_m
@@ -444,13 +445,18 @@ public class CadastroCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPCepActionPerformed
-        clienteEnd = completaCep();
         if (tfCep.getText() == null || tfCep.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Insira um CEP");
+            return;
         }
-        
-        endUsado = true;
+        CadastroClienteController controller = new CadastroClienteController();
 
+        clienteEnd = controller.completaCep(tfCep.getText());
+        endUsado = true;
+        tfBairro.setText(clienteEnd.getBairro());
+        tfCidade.setText(clienteEnd.getCidade());
+        tfRua.setText(clienteEnd.getLogradouro());
+        tfEstado.setText(clienteEnd.getUf());       
     }//GEN-LAST:event_btnPCepActionPerformed
 
     /**
@@ -481,10 +487,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CadastroCliente().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new CadastroCliente().setVisible(true);
         });
 
     }
