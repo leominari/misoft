@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package misoft.classes;
+package classes;
 
-import misoft.api.Cep;
+import api.Cep;
 
 /**
  *
