@@ -3,16 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package classes;
+package controller;
+
+import java.sql.SQLException;
+import java.util.List;
+import model.MEndereco;
 
 /**
  *
  * @author leo_m
  */
 public class Cidade {
+
     private String id;
     private String nome;
 
+    public Cidade() {
+    }
+
+    public Cidade(String id, String nome) {
+        setId(id);
+        setNome(nome);
+    }
+
+    public List<Cidade> getCidades(String id) throws SQLException {
+        return new MEndereco().listaCidadePorEstado(id);
+    }
+
+    @Override
+    public String toString() {
+        return getNome(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    
     /**
      * @return the id
      */

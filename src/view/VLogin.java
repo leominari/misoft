@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author leo_m
@@ -130,7 +134,14 @@ public class VLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            VCadastroCliente cc = new VCadastroCliente();
+            cc.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(VLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**

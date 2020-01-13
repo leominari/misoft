@@ -5,9 +5,19 @@
  */
 package view;
 
-import classes.Endereco;
+import controller.Endereco;
+import controller.Estado;
 import javax.swing.JOptionPane;
 import controller.CCadastroCliente;
+import controller.Cidade;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.MaskFormatter;
+import model.MEndereco;
 
 /**
  *
@@ -17,9 +27,35 @@ public class VCadastroCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form CadastroCliente
+     *
+     * @throws java.sql.SQLException
      */
+    private void formataCampos() throws ParseException {
+
+        MaskFormatter mFundacao = new MaskFormatter("##/##/####");
+        MaskFormatter mCnpj = new MaskFormatter("##.###.###/####-##");
+        MaskFormatter mInscricaoEstadual = new MaskFormatter("###.###.###.###");
+        MaskFormatter mCep = new MaskFormatter("##.###-###");
+        mFundacao.install(ftfFund);
+        mCnpj.install(ftfCnpj);
+        mInscricaoEstadual.install(ftfInscricaoEstadual);
+        mCep.install(ftfCep);
+    }
+
+    private void preCarregamento() throws SQLException {
+        List<Estado> est = new Estado().getEstados();
+        for (Estado i : est) {
+            cbEstado.addItem(i);
+        }
+    }
+
     public VCadastroCliente() {
         initComponents();
+        try {
+            formataCampos();
+        } catch (ParseException ex) {
+            Logger.getLogger(VCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -42,24 +78,23 @@ public class VCadastroCliente extends javax.swing.JFrame {
         lbNomeFantasia = new javax.swing.JLabel();
         tfNomeFantasia = new javax.swing.JTextField();
         lbCnpj = new javax.swing.JLabel();
-        tfCnpj = new javax.swing.JTextField();
+        ftfCnpj = new javax.swing.JFormattedTextField();
         lbCapitalSocial = new javax.swing.JLabel();
         tfCapitalSocial = new javax.swing.JTextField();
         lbInscricaoEstadual = new javax.swing.JLabel();
-        tfInscricaoEstadual = new javax.swing.JTextField();
+        ftfInscricaoEstadual = new javax.swing.JFormattedTextField();
         lbConsumidorFinal = new javax.swing.JLabel();
-        tfConsumidorFinal = new javax.swing.JTextField();
+        ftfConsumidorFinal = new javax.swing.JComboBox();
         lbInscricaoMunicipal = new javax.swing.JLabel();
         tfInscricaoMunicipal = new javax.swing.JTextField();
         lbFundacao = new javax.swing.JLabel();
-        tfFundacao = new javax.swing.JTextField();
         lbContribuinte = new javax.swing.JLabel();
         tfContribuinte = new javax.swing.JTextField();
         cboxIsento = new javax.swing.JCheckBox();
         btnPCnpj = new javax.swing.JButton();
+        ftfFund = new javax.swing.JFormattedTextField();
         pEndereco = new javax.swing.JPanel();
         lbCep = new javax.swing.JLabel();
-        tfCep = new javax.swing.JTextField();
         lbRua = new javax.swing.JLabel();
         tfRua = new javax.swing.JTextField();
         lbNumero = new javax.swing.JLabel();
@@ -75,6 +110,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
         btnPCep = new javax.swing.JButton();
         cbCidade = new javax.swing.JComboBox<Object>();
         cbEstado = new javax.swing.JComboBox<Object>();
+        ftfCep = new javax.swing.JFormattedTextField();
         pInformacoes = new javax.swing.JPanel();
         lbTelefone = new javax.swing.JLabel();
         tfTelefone = new javax.swing.JTextField();
@@ -89,8 +125,18 @@ public class VCadastroCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pRodapeLayout = new javax.swing.GroupLayout(pRodape);
         pRodape.setLayout(pRodapeLayout);
@@ -121,11 +167,19 @@ public class VCadastroCliente extends javax.swing.JFrame {
 
         lbCnpj.setText("CNPJ");
 
+        ftfCnpj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftfCnpjActionPerformed(evt);
+            }
+        });
+
         lbCapitalSocial.setText("Capital Social");
 
         lbInscricaoEstadual.setText("Inscrição Estadual");
 
         lbConsumidorFinal.setText("Consumidor Final");
+
+        ftfConsumidorFinal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Não", "Sim" }));
 
         lbInscricaoMunicipal.setText("Inscrição Municipal");
 
@@ -134,6 +188,11 @@ public class VCadastroCliente extends javax.swing.JFrame {
         lbContribuinte.setText("Tipo Contribuinte");
 
         cboxIsento.setText("Isento");
+        cboxIsento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxIsentoActionPerformed(evt);
+            }
+        });
 
         btnPCnpj.setText("P");
 
@@ -142,52 +201,57 @@ public class VCadastroCliente extends javax.swing.JFrame {
         pInfosLayout.setHorizontalGroup(
             pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pInfosLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
                 .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pInfosLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pInfosLayout.createSequentialGroup()
+                                    .addComponent(lbRazaoSocial)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pInfosLayout.createSequentialGroup()
+                                    .addComponent(lbCnpj)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(ftfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(4, 4, 4)
+                                    .addComponent(btnPCnpj)
+                                    .addGap(18, 18, 18)
+                                    .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(pInfosLayout.createSequentialGroup()
+                                            .addComponent(lbInscricaoEstadual)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(ftfInscricaoEstadual, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(cboxIsento))
+                                        .addGroup(pInfosLayout.createSequentialGroup()
+                                            .addComponent(lbInscricaoMunicipal)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(tfInscricaoMunicipal)))))
                             .addGroup(pInfosLayout.createSequentialGroup()
-                                .addComponent(lbNomeFantasia)
+                                .addComponent(lbFundacao)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfNomeFantasia))
-                            .addGroup(pInfosLayout.createSequentialGroup()
-                                .addComponent(lbRazaoSocial)
-                                .addGap(18, 18, 18)
-                                .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ftfFund, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbConsumidorFinal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ftfConsumidorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)
+                                .addComponent(lbCapitalSocial)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfCapitalSocial))))
+                    .addGroup(pInfosLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pInfosLayout.createSequentialGroup()
                                 .addComponent(lbContribuinte)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfContribuinte, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(pInfosLayout.createSequentialGroup()
-                            .addComponent(lbCnpj)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(tfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnPCnpj)
-                            .addGap(18, 18, 18)
-                            .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(pInfosLayout.createSequentialGroup()
-                                    .addComponent(lbInscricaoEstadual)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tfInscricaoEstadual, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cboxIsento))
-                                .addGroup(pInfosLayout.createSequentialGroup()
-                                    .addComponent(lbInscricaoMunicipal)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tfInscricaoMunicipal, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(pInfosLayout.createSequentialGroup()
-                        .addComponent(lbFundacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfFundacao, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbConsumidorFinal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfConsumidorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbCapitalSocial)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCapitalSocial)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfContribuinte, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pInfosLayout.createSequentialGroup()
+                                .addComponent(lbNomeFantasia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfNomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(42, 42, 42))
         );
         pInfosLayout.setVerticalGroup(
@@ -204,11 +268,11 @@ public class VCadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCnpj)
-                    .addComponent(tfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbInscricaoEstadual)
-                    .addComponent(tfInscricaoEstadual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboxIsento)
-                    .addComponent(btnPCnpj))
+                    .addComponent(btnPCnpj)
+                    .addComponent(ftfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfInscricaoEstadual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbContribuinte)
@@ -218,11 +282,11 @@ public class VCadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbFundacao)
-                    .addComponent(tfFundacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbConsumidorFinal)
-                    .addComponent(tfConsumidorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbCapitalSocial)
-                    .addComponent(tfCapitalSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfCapitalSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfConsumidorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfFund, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -251,9 +315,9 @@ public class VCadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        cbEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbEstadoActionPerformed(evt);
+        cbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbEstadoItemStateChanged(evt);
             }
         });
 
@@ -266,8 +330,8 @@ public class VCadastroCliente extends javax.swing.JFrame {
                 .addGroup(pEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pEnderecoLayout.createSequentialGroup()
                         .addComponent(lbCep)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ftfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPCep)
                         .addGap(106, 106, 106)
@@ -310,10 +374,10 @@ public class VCadastroCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCep)
-                    .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPCep)
                     .addComponent(lbEstado)
-                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(pEnderecoLayout.createSequentialGroup()
@@ -410,7 +474,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
         pComercial.setLayout(pComercialLayout);
         pComercialLayout.setHorizontalGroup(
             pComercialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGap(0, 596, Short.MAX_VALUE)
         );
         pComercialLayout.setVerticalGroup(
             pComercialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,7 +487,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
         pEstoque.setLayout(pEstoqueLayout);
         pEstoqueLayout.setHorizontalGroup(
             pEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGap(0, 596, Short.MAX_VALUE)
         );
         pEstoqueLayout.setVerticalGroup(
             pEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,13 +515,13 @@ public class VCadastroCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPCepActionPerformed
-        if (tfCep.getText() == null || tfCep.getText().trim().equals("")) {
+        if (ftfCep.getText() == null || ftfCep.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Insira um CEP");
             return;
         }
         CCadastroCliente controller = new CCadastroCliente();
-
-        clienteEnd = controller.completaCep(tfCep.getText());
+        
+        clienteEnd = controller.completaCep(ftfCep.getText());
         endUsado = true;
         tfBairro.setText(clienteEnd.getBairro());
 //        tfCidade.setText(clienteEnd.getCidade());
@@ -465,9 +529,41 @@ public class VCadastroCliente extends javax.swing.JFrame {
 //        tfEstado.setText(clienteEnd.getUf());       
     }//GEN-LAST:event_btnPCepActionPerformed
 
-    private void cbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoActionPerformed
+    private void cbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEstadoItemStateChanged
+        cbCidade.removeAllItems();
+        Estado est = (Estado) cbEstado.getSelectedItem();
+        List<Cidade> cid;
+        try {
+            cid = new Cidade().getCidades(est.getId());
+            for (Cidade i : cid) {
+                cbCidade.addItem(i);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_cbEstadoItemStateChanged
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void cboxIsentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxIsentoActionPerformed
+        if(cboxIsento.isSelected()){
+            ftfInscricaoEstadual.setEnabled(false);
+        }else{
+            ftfInscricaoEstadual.setEnabled(true);
+        }
+    }//GEN-LAST:event_cboxIsentoActionPerformed
+
+    private void ftfCnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfCnpjActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbEstadoActionPerformed
+    }//GEN-LAST:event_ftfCnpjActionPerformed
 
     /**
      * @param args the command line arguments
@@ -514,6 +610,11 @@ public class VCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JComboBox<Object> cbCidade;
     private javax.swing.JComboBox<Object> cbEstado;
     private javax.swing.JCheckBox cboxIsento;
+    private javax.swing.JFormattedTextField ftfCep;
+    private javax.swing.JFormattedTextField ftfCnpj;
+    private javax.swing.JComboBox ftfConsumidorFinal;
+    private javax.swing.JFormattedTextField ftfFund;
+    private javax.swing.JFormattedTextField ftfInscricaoEstadual;
     private javax.swing.JLabel lbBairro;
     private javax.swing.JLabel lbCapitalSocial;
     private javax.swing.JLabel lbCep;
@@ -545,14 +646,9 @@ public class VCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextArea taObservacoes;
     private javax.swing.JTextField tfBairro;
     private javax.swing.JTextField tfCapitalSocial;
-    private javax.swing.JTextField tfCep;
-    private javax.swing.JTextField tfCnpj;
     private javax.swing.JTextField tfComplemento;
-    private javax.swing.JTextField tfConsumidorFinal;
     private javax.swing.JTextField tfContribuinte;
     private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfFundacao;
-    private javax.swing.JTextField tfInscricaoEstadual;
     private javax.swing.JTextField tfInscricaoMunicipal;
     private javax.swing.JTextField tfNomeFantasia;
     private javax.swing.JTextField tfNumero;

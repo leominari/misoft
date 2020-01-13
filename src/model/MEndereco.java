@@ -6,9 +6,8 @@
 package model;
 
 import api.ConexaoMysql;
-import classes.Cidade;
-import classes.Endereco;
-import classes.Estado;
+import controller.Cidade;
+import controller.Estado;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,15 +21,14 @@ public class MEndereco {
 
     public List<Estado> listaEstados() throws SQLException {
         List<Estado> estados = new ArrayList<>();
-        Estado est = new Estado();
         String query = "SELECT * FROM estado;";
         ConexaoMysql banco = new ConexaoMysql();
         ResultSet rs = banco.exQuery(query);
         while (rs.next()) {
-            est.setId(rs.getString("id"));
-            est.setNome(rs.getString("nome"));
-            est.setUF(rs.getString("uf"));
-            estados.add(est);
+            estados.add(new Estado(rs.getString("id"),
+                    rs.getString("nome"),
+                    rs.getString("uf"))
+            );
         }
         return estados;
     }
@@ -38,13 +36,13 @@ public class MEndereco {
     public List<Cidade> listaCidadePorEstado(String idEstado) throws SQLException {
         List<Cidade> cidades = new ArrayList<>();
         Cidade est = new Cidade();
-        String query = "SELECT * FROM cidade WHERE estado="+ idEstado +";";
+        String query = "SELECT * FROM cidade WHERE estado=" + idEstado + ";";
         ConexaoMysql banco = new ConexaoMysql();
         ResultSet rs = banco.exQuery(query);
         while (rs.next()) {
-            est.setId(rs.getString("id"));
-            est.setNome(rs.getString("nome"));
-            cidades.add(est);
+            cidades.add(new Cidade(rs.getString("id"),
+                    rs.getString("nome")
+            ));
         }
         return cidades;
     }

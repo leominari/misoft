@@ -6,7 +6,7 @@
 package model;
 
 import api.ConexaoMysql;
-import classes.Estado;
+import controller.Estado;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

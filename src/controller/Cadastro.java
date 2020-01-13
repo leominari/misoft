@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 package controller;
-public class CCadastroCliente {
 
-    public Endereco completaCep(String cep) {
-        Endereco cliente = new Endereco();
-        cliente.buscaCep(cep);
-        return cliente;
-    }
+/**
+ *
+ * @author leo_m
+ */
+public class Cadastro {
+    
 }

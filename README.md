@@ -12,8 +12,11 @@
  - [X] Tela Cadastro Cliente P. Jurídica
  - [X] Conexão com o Banco de Dados
  - [ ] Tela Cadastro Cliente P. Fisíca
+ - [X] Campos Formatados
  - [ ] Tela Cadastro Produto
+ - [ ] Campos Formatados
  - [ ] Tela Cadastro Pedido
+ - [ ] Campos Formatados
  - [ ] Tela Cadastro Colaborador
  - [ ] Cadastro de Conta Bancaria
  - [ ] Programação de Contas a Pagar

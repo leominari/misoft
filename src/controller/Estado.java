@@ -3,16 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package classes;
+package controller;
+
+import java.sql.SQLException;
+import java.util.List;
+import model.MEndereco;
 
 /**
  *
  * @author leo_m
  */
 public class Estado {
+
     private String id;
     private String nome;
     private String UF;
+
+    public Estado() {
+    }
+
+    public Estado(String id, String nome, String UF) {
+        setId(id);
+        setNome(nome);
+        setUF(UF);
+    }
+
+    public List<Estado> getEstados() throws SQLException {
+        return new MEndereco().listaEstados();
+    }
+
+    @Override
+    public String toString() {
+        return getNome(); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * @return the id
