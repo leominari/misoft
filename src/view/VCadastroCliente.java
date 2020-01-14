@@ -5,19 +5,18 @@
  */
 package view;
 
-import controller.Endereco;
-import controller.Estado;
+import controller.CEndereco;
+import tipos.TEstado;
 import javax.swing.JOptionPane;
-import controller.CadastroCliente;
-import controller.Cidade;
+import controller.CCadastroCliente;
+import tipos.TCidade;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
-import model.MEndereco;
+import tipos.TUsuario;
 
 /**
  *
@@ -43,13 +42,18 @@ public class VCadastroCliente extends javax.swing.JFrame {
     }
 
     private void preCarregamento() throws SQLException {
-        List<Estado> est = new Estado().getEstados();
-        for (Estado i : est) {
+        List<TEstado> est = new TEstado().getEstados();
+        for (TEstado i : est) {
             cbEstado.addItem(i);
         }
     }
 
     public VCadastroCliente() {
+        initComponents();
+    }
+
+    public VCadastroCliente(TUsuario user) {
+        this.user = user;
         initComponents();
         try {
             formataCampos();
@@ -516,11 +520,11 @@ public class VCadastroCliente extends javax.swing.JFrame {
 
     private void btnPCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPCepActionPerformed
         if (ftfCep.getText() == null || ftfCep.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "Insira um CEP");
+            JOptionPane.showMessageDialog(null, "Insira um CEif (ftfCep.getText() == null || ftfCep.getText().trim().equals(\"\")P");
             return;
         }
-        CadastroCliente controller = new CadastroCliente();
-        
+        CCadastroCliente controller = new CCadastroCliente();
+
         clienteEnd = controller.completaCep(ftfCep.getText());
         endUsado = true;
         tfBairro.setText(clienteEnd.getBairro());
@@ -531,11 +535,11 @@ public class VCadastroCliente extends javax.swing.JFrame {
 
     private void cbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEstadoItemStateChanged
         cbCidade.removeAllItems();
-        Estado est = (Estado) cbEstado.getSelectedItem();
-        List<Cidade> cid;
+        TEstado est = (TEstado) cbEstado.getSelectedItem();
+        List<TCidade> cid;
         try {
-            cid = new Cidade().getCidades(est.getId());
-            for (Cidade i : cid) {
+            cid = new TCidade().getCidades(est.getId());
+            for (TCidade i : cid) {
                 cbCidade.addItem(i);
             }
         } catch (SQLException ex) {
@@ -554,9 +558,9 @@ public class VCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cboxIsentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxIsentoActionPerformed
-        if(cboxIsento.isSelected()){
+        if (cboxIsento.isSelected()) {
             ftfInscricaoEstadual.setEnabled(false);
-        }else{
+        } else {
             ftfInscricaoEstadual.setEnabled(true);
         }
     }//GEN-LAST:event_cboxIsentoActionPerformed
@@ -599,8 +603,8 @@ public class VCadastroCliente extends javax.swing.JFrame {
         });
 
     }
-
-    private Endereco clienteEnd;
+    private TUsuario user;
+    private CEndereco clienteEnd;
     private boolean endUsado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;

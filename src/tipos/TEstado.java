@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package tipos;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,22 +13,22 @@ import model.MEndereco;
  *
  * @author leo_m
  */
-public class Estado {
+public class TEstado {
 
     private String id;
     private String nome;
     private String UF;
 
-    public Estado() {
+    public TEstado() {
     }
 
-    public Estado(String id, String nome, String UF) {
+    public TEstado(String id, String nome, String UF) {
         setId(id);
         setNome(nome);
         setUF(UF);
     }
 
-    public List<Estado> getEstados() throws SQLException {
+    public List<TEstado> getEstados() throws SQLException {
         return new MEndereco().listaEstados();
     }
 

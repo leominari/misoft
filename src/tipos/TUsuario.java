@@ -3,15 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package tipos;
 
 /**
  *
  * @author leo_m
  */
-public class Login {
+public class TUsuario {
+
+    private String id;
     private String usuario;
-    private char[] senha;
+    private String senha;
+
+    @Override
+    public String toString() {
+        return getUsuario(); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * @return the usuario
@@ -40,4 +47,19 @@ public class Login {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

@@ -5,10 +5,13 @@
  */
 package view;
 
-import controller.Login;
+import controller.CLogin;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import tipos.TUsuario;
 
 /**
  *
@@ -16,12 +19,38 @@ import java.util.logging.Logger;
  */
 public class VLogin extends javax.swing.JFrame {
 
+    public boolean verificaCampos() {
+        boolean rUser;
+        boolean rSenha;
+        if (tfUsuario.getText() == null || tfUsuario.getText().trim().equals("")) {
+            lbUsuario.setText("Usuário *");
+            lbUsuario.setForeground(Color.red);
+            rUser = false;
+        } else {
+            lbUsuario.setText("Usuário");
+            lbUsuario.setForeground(Color.black);
+            rUser = true;
+
+        }
+        if (pfSenha.getText() == null || pfSenha.getText().trim().equals("")) {
+            lbSenha.setText("Senha *");
+            lbSenha.setForeground(Color.red);
+            rSenha = false;
+        } else {
+            lbSenha.setText("Senha");
+            lbSenha.setForeground(Color.black);
+            rSenha = true;
+        }
+
+        return rUser && rSenha;
+    }
+
     /**
      * Creates new form login
      */
     public VLogin() {
         initComponents();
-        user = new Login();
+        user = new TUsuario();
     }
 
     /**
@@ -64,7 +93,7 @@ public class VLogin extends javax.swing.JFrame {
                 .addGap(35, 35, 35))
         );
 
-        lbUsuario.setText("Usuario");
+        lbUsuario.setText("Usuário");
 
         lbSenha.setText("Senha");
 
@@ -137,11 +166,31 @@ public class VLogin extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         user.setUsuario(tfUsuario.getText());
-        user.setSenha(pfSenha.getPassword());
-        System.out.println(user.getSenha());
-        VCadastroCliente cc = new VCadastroCliente();
-        cc.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
+        user.setSenha(pfSenha.getText());
+        CLogin lg = new CLogin();
+        if (verificaCampos()) {
+            try {
+                this.user = lg.buscaUser(user);
+            } catch (SQLException ex) {
+                Logger.getLogger(VLogin.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+
+            if (lg.doLogin(user)) {
+                VCadastroCliente cc = new VCadastroCliente(user);
+                cc.setVisible(rootPaneCheckingEnabled);
+                this.dispose();
+            } else {
+
+                //aaaaaaaaaaaaaaa
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Preecha os campos obrigatórios.");
+
+        }
+
+
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**
@@ -181,7 +230,7 @@ public class VLogin extends javax.swing.JFrame {
             }
         });
     }
-    private Login user;
+    private TUsuario user;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel lbMisoft;

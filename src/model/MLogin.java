@@ -6,33 +6,37 @@
 package model;
 
 import api.ConexaoMysql;
-import controller.Cidade;
-import controller.Login;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JOptionPane;
+import tipos.TUsuario;
 
 /**
  *
  * @author leo_m
  */
 public class MLogin {
-    
-    
-    
-        public Login getUsuario(String usuario) throws SQLException {
-        Login user = new Login();
-        String query = "SELECT * FROM usuario WHERE usuario=" + usuario + ";";
+
+    public TUsuario getUsuario(String usuario) throws SQLException {
+        TUsuario user = new TUsuario();
+        ResultSet rs ;
+        String query = "SELECT * FROM usuario WHERE usuario='" + usuario + "';";
         ConexaoMysql banco = new ConexaoMysql();
-        ResultSet rs = banco.exQuery(query);
+        try {
+           rs = banco.exQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel conectar ao servidor.");
+            return null;
+        }
+
         if (rs.next()) {
+            user.setId(rs.getString("id"));
             user.setUsuario(rs.getString("usuario"));
             user.setSenha(rs.getString("senha"));
         }
         return user;
     }
-    
+
     //    public boolean novoDoador(Doador doador) throws SQLException {
 //        doador.leDoador();
 //        query = "INSERT INTO `doador`(`nome`, `dataNascimento`, `sexo`, `nomeMae`, `nomePai`, `documento`, `endereco`, `bairro`, `numero`, `complemento`) VALUES ('" + doador.getNomeCompleto() + "','" + doador.getDataNascimento() + "', '" + doador.getSexo() + "','" + doador.getNomeMae() + "', '" + doador.getNomePai() + "','" + doador.getDocumento() + "', '" + doador.getEndereco() + "', '" + doador.getBairro() + "'," + doador.getNumero() + ", '" + doador.getComplemento() + "');";

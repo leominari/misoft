@@ -9,6 +9,6 @@ package controller;
  *
  * @author leo_m
  */
-public class Cadastro {
+public class CCadastro {
     
 }

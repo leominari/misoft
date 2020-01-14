@@ -11,7 +11,7 @@ import api.Cep;
  *
  * @author leo_m
  */
-public class Endereco {
+public class CEndereco {
 
     private String logradouro;
     private String bairro;
