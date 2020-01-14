@@ -4,10 +4,13 @@
  * and open the template in the editor.
  */
 package controller;
+
+import tipos.TEndereco;
+
 public class CCadastroCliente {
 
-    public CEndereco completaCep(String cep) {
-        CEndereco cliente = new CEndereco();
+    public TEndereco completaCep(String cep) {
+        TEndereco cliente = new TEndereco();
         cliente.buscaCep(cep);
         return cliente;
     }

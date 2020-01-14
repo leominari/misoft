@@ -5,17 +5,24 @@
  */
 package view;
 
-import controller.CEndereco;
+import tipos.TEndereco;
 import tipos.TEstado;
 import javax.swing.JOptionPane;
 import controller.CCadastroCliente;
+import java.awt.Color;
+import java.awt.Label;
 import tipos.TCidade;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.scene.control.TextField;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+import tipos.TCadastroJuridica;
 import tipos.TUsuario;
 
 /**
@@ -23,6 +30,35 @@ import tipos.TUsuario;
  * @author leo_m
  */
 public class VCadastroCliente extends javax.swing.JFrame {
+
+    private boolean mudaCampo(JLabel lb, JTextField tf, String text) {
+        boolean rLb;
+        if (tf.getText() == null || tf.getText().trim().equals("")) {
+            lb.setText(text + "*");
+            lb.setForeground(Color.red);
+            rLb = false;
+        } else {
+            lb.setText(text);
+            lb.setForeground(Color.black);
+            rLb = true;
+        }
+        return rLb;
+    }
+
+    public boolean verificaCampos() {
+        boolean bol = true;
+        return mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbBairro, tfBairro, lbBairro.getText())
+                && mudaCampo(lbNomeFantasia, tfnolbNomeFantasia, lbNomeFantasia.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
+                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText());
+
+    }
 
     /**
      * Creates new form CadastroCliente
@@ -520,7 +556,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
 
     private void btnPCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPCepActionPerformed
         if (ftfCep.getText() == null || ftfCep.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "Insira um CEif (ftfCep.getText() == null || ftfCep.getText().trim().equals(\"\")P");
+            JOptionPane.showMessageDialog(null, "Insira um CEP");
             return;
         }
         CCadastroCliente controller = new CCadastroCliente();
@@ -550,7 +586,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_cbEstadoItemStateChanged
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-
+        verificaCampos();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -574,8 +610,8 @@ public class VCadastroCliente extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+            /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
@@ -585,16 +621,13 @@ public class VCadastroCliente extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+            //</editor-fold>
         //</editor-fold>
+
+            //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -603,8 +636,10 @@ public class VCadastroCliente extends javax.swing.JFrame {
         });
 
     }
+
+    private TCadastroJuridica novoUsuario;
     private TUsuario user;
-    private CEndereco clienteEnd;
+    private TEndereco clienteEnd;
     private boolean endUsado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
@@ -662,4 +697,5 @@ public class VCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextField tfTelefone;
     private javax.swing.JTabbedPane tpCabecalho;
     // End of variables declaration//GEN-END:variables
+
 }

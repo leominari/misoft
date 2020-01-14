@@ -6,6 +6,7 @@
 package controller;
 
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import model.MLogin;
 import tipos.TUsuario;
 
@@ -17,17 +18,29 @@ public class CLogin {
 
     private TUsuario user;
 
-    public TUsuario buscaUser(TUsuario user) throws SQLException {
+    public String buscaUser(TUsuario user) throws SQLException {
         MLogin lg = new MLogin();
         setUser(lg.getUsuario(user.getUsuario()));
-        return getUser();
+        return getUser().getId();
+
+    }
+
+    public boolean verificacaoUser(String id) {
+        if ((id == null) || id.equals("-1")) {
+            JOptionPane.showMessageDialog(null, "Usuário incorreto.");
+            return false;
+        }
+        return true;
     }
 
     public boolean doLogin(TUsuario user) {
-        if (!(user == null) || !(this.user == null)) {
+        if (verificacaoUser(user.getId())) {
             if (getUser().getUsuario().equals(user.getUsuario())) {
                 if (getUser().getSenha().equals(user.getSenha())) {
+                    System.out.println("salve");
                     return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Senha incorreta.");
                 }
             }
         }

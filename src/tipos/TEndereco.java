@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package tipos;
 
 import api.Cep;
 
@@ -11,7 +11,7 @@ import api.Cep;
  *
  * @author leo_m
  */
-public class CEndereco {
+public class TEndereco {
 
     private String logradouro;
     private String bairro;

@@ -7,6 +7,7 @@ package view;
 
 import controller.CLogin;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,6 +104,11 @@ public class VLogin extends javax.swing.JFrame {
                 btnEntrarActionPerformed(evt);
             }
         });
+        btnEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnEntrarKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout pLoginLayout = new javax.swing.GroupLayout(pLogin);
         pLogin.setLayout(pLoginLayout);
@@ -169,20 +175,18 @@ public class VLogin extends javax.swing.JFrame {
         user.setSenha(pfSenha.getText());
         CLogin lg = new CLogin();
         if (verificaCampos()) {
+
             try {
-                this.user = lg.buscaUser(user);
+                this.user.setId(lg.buscaUser(user));
+                System.out.println(this.user.getId() + " " + this.user.getUsuario() + " " + this.user.getSenha());
             } catch (SQLException ex) {
                 Logger.getLogger(VLogin.class.getName()).log(Level.SEVERE, null, ex);
-
             }
 
             if (lg.doLogin(user)) {
                 VCadastroCliente cc = new VCadastroCliente(user);
                 cc.setVisible(rootPaneCheckingEnabled);
                 this.dispose();
-            } else {
-
-                //aaaaaaaaaaaaaaa
             }
 
         } else {
@@ -192,6 +196,10 @@ public class VLogin extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnEntrarActionPerformed
+
+    private void btnEntrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEntrarKeyTyped
+
+    }//GEN-LAST:event_btnEntrarKeyTyped
 
     /**
      * @param args the command line arguments

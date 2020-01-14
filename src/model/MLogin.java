@@ -19,23 +19,25 @@ public class MLogin {
 
     public TUsuario getUsuario(String usuario) throws SQLException {
         TUsuario user = new TUsuario();
-        ResultSet rs ;
+        ResultSet rs;
         String query = "SELECT * FROM usuario WHERE usuario='" + usuario + "';";
         ConexaoMysql banco = new ConexaoMysql();
         try {
-           rs = banco.exQuery(query);
+            rs = banco.exQuery(query);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possivel conectar ao servidor.");
             return null;
         }
-
-        if (rs.next()) {
+        if (rs.wasNull()) {
+            user.setId("-1");
+        } else if (rs.next()) {
             user.setId(rs.getString("id"));
             user.setUsuario(rs.getString("usuario"));
             user.setSenha(rs.getString("senha"));
         }
         return user;
     }
+
 
     //    public boolean novoDoador(Doador doador) throws SQLException {
 //        doador.leDoador();
