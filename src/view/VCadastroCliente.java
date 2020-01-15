@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.scene.control.TextField;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -30,7 +31,7 @@ import tipos.TUsuario;
  * @author leo_m
  */
 public class VCadastroCliente extends javax.swing.JFrame {
-
+    
     private boolean mudaCampo(JLabel lb, JTextField tf, String text) {
         boolean rLb;
         if (tf.getText() == null || tf.getText().trim().equals("")) {
@@ -44,20 +45,28 @@ public class VCadastroCliente extends javax.swing.JFrame {
         }
         return rLb;
     }
-
+    
+    private boolean mudaCampoCk(JLabel lb, JTextField tf, String text, JCheckBox ck) {
+        boolean rLb;
+        if (ck.isEnabled()) {
+            return true;
+        }
+        if (tf.getText() == null || tf.getText().trim().equals("")) {
+            lb.setText(text + "*");
+            lb.setForeground(Color.red);
+            rLb = false;
+        } else {
+            lb.setText(text);
+            lb.setForeground(Color.black);
+            rLb = true;
+        }
+        return rLb;
+    }
+    
     public boolean verificaCampos() {
-        boolean bol = true;
         return mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbBairro, tfBairro, lbBairro.getText())
-                && mudaCampo(lbNomeFantasia, tfnolbNomeFantasia, lbNomeFantasia.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText())
-                && mudaCampo(lbRazaoSocial, tfRazaoSocial, lbRazaoSocial.getText());
-
+                && mudaCampo(lbCnpj, ftfCnpj, lbCnpj.getText())
+                && mudaCampoCk(lbInscricaoEstadual, ftfInscricaoEstadual, lbInscricaoEstadual.getText(), cboxIsento);
     }
 
     /**
@@ -66,7 +75,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
      * @throws java.sql.SQLException
      */
     private void formataCampos() throws ParseException {
-
+        
         MaskFormatter mFundacao = new MaskFormatter("##/##/####");
         MaskFormatter mCnpj = new MaskFormatter("##.###.###/####-##");
         MaskFormatter mInscricaoEstadual = new MaskFormatter("###.###.###.###");
@@ -76,20 +85,23 @@ public class VCadastroCliente extends javax.swing.JFrame {
         mInscricaoEstadual.install(ftfInscricaoEstadual);
         mCep.install(ftfCep);
     }
-
+    
     private void preCarregamento() throws SQLException {
         List<TEstado> est = new TEstado().getEstados();
         for (TEstado i : est) {
             cbEstado.addItem(i);
         }
+        tfPais.setText("Brasil");
     }
-
+    
     public VCadastroCliente() {
         initComponents();
     }
-
+    
     public VCadastroCliente(TUsuario user) {
         this.user = user;
+        clienteEnd = new TEndereco();
+        controller = new CCadastroCliente();
         initComponents();
         try {
             formataCampos();
@@ -557,16 +569,12 @@ public class VCadastroCliente extends javax.swing.JFrame {
     private void btnPCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPCepActionPerformed
         if (ftfCep.getText() == null || ftfCep.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Insira um CEP");
-            return;
+        } else {
+            clienteEnd = controller.completaCep(ftfCep.getText());
+            endUsado = true;
+            tfBairro.setText(clienteEnd.getBairro());
+            tfRua.setText(clienteEnd.getLogradouro());
         }
-        CCadastroCliente controller = new CCadastroCliente();
-
-        clienteEnd = controller.completaCep(ftfCep.getText());
-        endUsado = true;
-        tfBairro.setText(clienteEnd.getBairro());
-//        tfCidade.setText(clienteEnd.getCidade());
-        tfRua.setText(clienteEnd.getLogradouro());
-//        tfEstado.setText(clienteEnd.getUf());       
     }//GEN-LAST:event_btnPCepActionPerformed
 
     private void cbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEstadoItemStateChanged
@@ -581,12 +589,46 @@ public class VCadastroCliente extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(VCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
 
     }//GEN-LAST:event_cbEstadoItemStateChanged
+    
+    private void preencheEndereco() {
+        if (!endUsado) {
+            clienteEnd.setLogradouro(tfRua.getText());
+            clienteEnd.setBairro(tfBairro.getText());
+            clienteEnd.setNumero(tfNumero.getText());
+            clienteEnd.setComplemento(tfComplemento.getText());
+            TCidade cid = (TCidade) cbCidade.getSelectedItem();
+            clienteEnd.setCidade(cid.getId());
+            TEstado est = (TEstado) cbEstado.getSelectedItem();
+            clienteEnd.setEstado(est.getId());
+            clienteEnd.setPais(tfPais.getText());
+        } else {
+            clienteEnd.setNumero(tfNumero.getText());
+            clienteEnd.setComplemento(tfComplemento.getText());
+            TCidade cid = (TCidade) cbCidade.getSelectedItem();
+            clienteEnd.setCidade(cid.getId());
+            TEstado est = (TEstado) cbEstado.getSelectedItem();
+            clienteEnd.setEstado(est.getId());
+            clienteEnd.setPais(tfPais.getText());
+        }
+    }
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         verificaCampos();
+        controller.setEndereco(clienteEnd);
+        controller.setFtfCnpj(ftfCnpj);
+        controller.setFtfInscricaoEstadual(ftfInscricaoEstadual);
+        controller.setTaObservacoes(taObservacoes);
+        controller.setTfCapitalSocial(tfCapitalSocial);
+        controller.setTfContribuinte(tfContribuinte);
+        controller.setTfEmail(tfEmail);
+        controller.setTfInscricaoMunicipal(tfInscricaoMunicipal);
+        controller.setTfNomeFantasia(tfNomeFantasia);
+        controller.setTfTelefone(tfTelefone);
+        controller.setTfRazaoSocial(tfRazaoSocial);
+        controller.cadastraCliente();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -610,7 +652,7 @@ public class VCadastroCliente extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
             /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
@@ -627,16 +669,17 @@ public class VCadastroCliente extends javax.swing.JFrame {
             //</editor-fold>
         //</editor-fold>
 
-            //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new VCadastroCliente().setVisible(true);
         });
-
+        
     }
-
+    
+    private CCadastroCliente controller;
     private TCadastroJuridica novoUsuario;
     private TUsuario user;
     private TEndereco clienteEnd;

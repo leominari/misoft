@@ -20,18 +20,16 @@ public class TEndereco {
     private String numero;
     private String complemento;
     private String cep;
+    private String estado;
+    private String pais;
 
     public void buscaCep(String cep) {
         Cep apicep = new Cep();
         apicep.buscarDadosPeloCep(cep);
         setLogradouro(apicep.getLogradouro());
         setBairro(apicep.getBairro());
-        setCidade(apicep.getCidade());
-        setUf(apicep.getUf());
-        System.out.println(getLogradouro());
-        System.out.println(getBairro());
-        System.out.println(getCidade());
-        System.out.println(getUf());
+//        setCidade(apicep.getCidade());
+//        setUf(apicep.getUf());
     }
 
     /**
@@ -120,6 +118,48 @@ public class TEndereco {
 
     private void buscaDadosPeloCep(String cep) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the cep
+     */
+    public String getCep() {
+        return cep;
+    }
+
+    /**
+     * @param cep the cep to set
+     */
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    /**
+     * @return the pais
+     */
+    public String getPais() {
+        return pais;
+    }
+
+    /**
+     * @param pais the pais to set
+     */
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
 }

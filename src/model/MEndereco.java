@@ -12,12 +12,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import tipos.TEndereco;
 
 /**
  *
  * @author leo_m
  */
 public class MEndereco {
+
+    public boolean novoDoador(TEndereco endereco) throws SQLException {
+        String query = "INSERT INTO `endereco`(`cep`, `estado`, `cidade`, `rua`, `bairro`, `pais`, `numero`, `complemento`) VALUES ('"
+                + endereco.getCep()
+                + "'," + endereco.getEstado()
+                + ", " + endereco.getCidade()
+                + ", '" + endereco.getLogradouro()
+                + "','" + endereco.getBairro()
+                + "','" + endereco.getPais()
+                + "','" + endereco.getNumero()
+                + "','" + endereco.getComplemento()
+                + "'); ";
+        ConexaoMysql banco = new ConexaoMysql();
+        if(banco.upQuery(query)){
+            query = "SELECT LAST_INSERT_ID();";
+        }
+        return ;
+    }
 
     public List<TEstado> listaEstados() throws SQLException {
         List<TEstado> estados = new ArrayList<>();
