@@ -20,7 +20,8 @@ import tipos.TEndereco;
  */
 public class MEndereco {
 
-    public boolean novoDoador(TEndereco endereco) throws SQLException {
+    public String novoEndereco(TEndereco endereco) throws SQLException {
+        ResultSet rs;
         String query = "INSERT INTO `endereco`(`cep`, `estado`, `cidade`, `rua`, `bairro`, `pais`, `numero`, `complemento`) VALUES ('"
                 + endereco.getCep()
                 + "'," + endereco.getEstado()
@@ -32,10 +33,12 @@ public class MEndereco {
                 + "','" + endereco.getComplemento()
                 + "'); ";
         ConexaoMysql banco = new ConexaoMysql();
-        if(banco.upQuery(query)){
-            query = "SELECT LAST_INSERT_ID();";
+        if (banco.upQuery(query)) {
+            query = "SELECT MAX(id) AS id FROM teste;";
+            rs = banco.exQuery(query);
+            return rs.getString("id");
         }
-        return ;
+        return "-1";
     }
 
     public List<TEstado> listaEstados() throws SQLException {

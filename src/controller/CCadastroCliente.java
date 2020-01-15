@@ -5,9 +5,14 @@
  */
 package controller;
 
+import api.Erro;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import model.MEndereco;
 import tipos.TEndereco;
 
 public class CCadastroCliente {
@@ -68,6 +73,14 @@ public class CCadastroCliente {
 
     public void cadastraCliente() {
         verificaCampos();
+        try {
+            getEndereco().setId(new MEndereco().novoEndereco(endereco));
+            if (getEndereco().getId().equals("-1")) {
+                new Erro().erroCadastro();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

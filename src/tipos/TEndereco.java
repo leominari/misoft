@@ -13,6 +13,7 @@ import api.Cep;
  */
 public class TEndereco {
 
+    private String id;
     private String logradouro;
     private String bairro;
     private String cidade;
@@ -160,6 +161,20 @@ public class TEndereco {
      */
     public void setPais(String pais) {
         this.pais = pais;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
