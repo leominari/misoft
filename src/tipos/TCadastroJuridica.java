@@ -15,6 +15,11 @@ public class TCadastroJuridica extends TCadastro{
     private String cnpj;
     private String fundacao;
     private String capitalSocial;
+    private String idEndereco;
+    private String contribuinte;
+
+
+
 
     /**
      * @return the razaoSocial
@@ -84,5 +89,33 @@ public class TCadastroJuridica extends TCadastro{
      */
     public void setCapitalSocial(String capitalSocial) {
         this.capitalSocial = capitalSocial;
+    }
+
+    /**
+     * @return the idEndereco
+     */
+    public String getIdEndereco() {
+        return idEndereco;
+    }
+
+    /**
+     * @param idEndereco the idEndereco to set
+     */
+    public void setIdEndereco(String idEndereco) {
+        this.idEndereco = idEndereco;
+    }
+
+    /**
+     * @return the contribuinte
+     */
+    public String getContribuinte() {
+        return contribuinte;
+    }
+
+    /**
+     * @param contribuinte the contribuinte to set
+     */
+    public void setContribuinte(String contribuinte) {
+        this.contribuinte = contribuinte;
     }
 }

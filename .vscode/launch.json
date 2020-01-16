@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-testes<MiSoft-Comercial_99f35c46>",
+            "request": "launch",
+            "mainClass": "model.testes",
+            "projectName": "MiSoft-Comercial_99f35c46"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Modelo<MiSoft-Comercial_99f35c46>",
+            "request": "launch",
+            "mainClass": "view.Modelo",
+            "projectName": "MiSoft-Comercial_99f35c46"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Teste<MiSoft-Comercial_99f35c46>",
+            "request": "launch",
+            "mainClass": "view.Teste",
+            "projectName": "MiSoft-Comercial_99f35c46"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VCadastroCliente<MiSoft-Comercial_99f35c46>",
+            "request": "launch",
+            "mainClass": "view.VCadastroCliente",
+            "projectName": "MiSoft-Comercial_99f35c46"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VLogin<MiSoft-Comercial_99f35c46>",
+            "request": "launch",
+            "mainClass": "view.VLogin",
+            "projectName": "MiSoft-Comercial_99f35c46"
+        }
+    ]
+}

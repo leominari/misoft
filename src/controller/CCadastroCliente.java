@@ -12,7 +12,10 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import model.MCadastroCliente;
 import model.MEndereco;
+import tipos.TCadastroJuridica;
 import tipos.TEndereco;
 
 public class CCadastroCliente {
@@ -29,6 +32,7 @@ public class CCadastroCliente {
     private JFormattedTextField ftfFund;
     private JFormattedTextField ftfInscricaoEstadual;
     private JFormattedTextField ftfCnpj;
+    private JComboBox cbConsumidorFinal;
 
     public TEndereco completaCep(String cep) {
         TEndereco cliente = new TEndereco();
@@ -64,20 +68,44 @@ public class CCadastroCliente {
             setTfNomeFantasia(null);
 
         }
-        if (tfEmail.getText().trim().equals("")) {
-            setTfNomeFantasia(null);
-
-        }
 
     }
 
+
+    public TCadastroJuridica completaCliente(){
+        TCadastroJuridica colaborador = new TCadastroJuridica();
+        colaborador.setRazaoSocial(tfRazaoSocial.getText());
+        colaborador.setNomeFantasia(tfNomeFantasia.getText());
+        colaborador.setCnpj(ftfCnpj.getText());
+        colaborador.setInscricaoEstadual(ftfInscricaoEstadual.getText());
+        colaborador.setContribuinte(tfContribuinte.getText());
+        colaborador.setInscricaoMunicipal(tfInscricaoMunicipal.getText());
+        colaborador.setFundacao(ftfFund.getText());
+        colaborador.setTelefone(tfTelefone.getText());
+        colaborador.setContribuinte(tfContribuinte.getText());
+        colaborador.setConsumidorFinal(getCbConsumidorFinal().getSelectedItem().toString());
+        colaborador.setIdEndereco(getEndereco().getId());
+        colaborador.setEmail(tfEmail.getText());
+        colaborador.setObservacoes(taObservacoes.getText());
+        return colaborador;
+    }
+
+
     public void cadastraCliente() {
         verificaCampos();
+        TCadastroJuridica colaborador = completaCliente();
+        
+
         try {
             getEndereco().setId(new MEndereco().novoEndereco(endereco));
             if (getEndereco().getId().equals("-1")) {
                 new Erro().erroCadastro();
             }
+            if(new MCadastroCliente().novoCadastro(colaborador)){
+            
+            }
+
+            
         } catch (SQLException ex) {
             Logger.getLogger(CCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -249,6 +277,20 @@ public class CCadastroCliente {
      */
     public void setFtfCnpj(JFormattedTextField ftfCnpj) {
         this.ftfCnpj = ftfCnpj;
+    }
+
+    /**
+     * @return the cbConsumidorFinal
+     */
+    public JComboBox getCbConsumidorFinal() {
+        return cbConsumidorFinal;
+    }
+
+    /**
+     * @param cbConsumidorFinal the cbConsumidorFinal to set
+     */
+    public void setCbConsumidorFinal(JComboBox cbConsumidorFinal) {
+        this.cbConsumidorFinal = cbConsumidorFinal;
     }
 
 }
