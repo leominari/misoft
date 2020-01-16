@@ -16,10 +16,9 @@ public class testes {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        ConexaoMysql con = new ConexaoMysql();
-        con.getConexaoMySQL();
-        System.out.println(con.statusConection());
+    public static void main(final String[] args) {
+        ConexaoMysql.getConexaoMySQL();
+        System.out.println(ConexaoMysql.statusConection());
     }
 
 }

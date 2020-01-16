@@ -57,7 +57,6 @@ public class MEndereco {
 
     public List<TCidade> listaCidadePorEstado(String idEstado) throws SQLException {
         List<TCidade> cidades = new ArrayList<>();
-        TCidade est = new TCidade();
         String query = "SELECT * FROM cidade WHERE estado=" + idEstado + ";";
         ConexaoMysql banco = new ConexaoMysql();
         ResultSet rs = banco.exQuery(query);

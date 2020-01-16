@@ -8,6 +8,7 @@
 | v0.25  | `Tela Pessoa Jurídica Adicionada`      |
 | v0.28  | `Conexão com o Banco de Dados`         |
 | v0.30  | `Tela Cadastro P. Jurídica Finalizada` |
+| v0.35  | `Biblioteca adicionada ao projeto`     |
 
  - [X] Tela Login
  - [X] Tela Cadastro Cliente P. Jurídica
