@@ -27,33 +27,18 @@ public class MCadastroCliente {
                 + colaborador.getNomeFantasia() + "','" + colaborador.getRazaoSocial() + "','" + colaborador.getCnpj()
                 + "','" + colaborador.getInscricaoEstadual() + "','" + colaborador.getTelefone() + "','"
                 + colaborador.getEmail() + "','" + colaborador.getObservacoes() + "','" + colaborador.getContribuinte() + "','"
-                + colaborador.getConsumidorFinal() + "'," + colaborador.getIdEndereco() + ");";
+                + colaborador.getConsumidorFinal() + "',(SELECT MAX(id) AS id FROM endereco));";
         System.out.println(query);
         System.out.println("foi krl");
         return banco.upQuery(query);
 
     }
 
-    public List<TEstado> listaEstados() throws SQLException {
-        List<TEstado> estados = new ArrayList<>();
-        String query = "SELECT * FROM estado;";
+    public boolean verificaCadastroExiste(String cnpj) throws SQLException {
+        String query = "SELECT documento FROM colaborador WHERE documento='" + cnpj + "';";
         ConexaoMysql banco = new ConexaoMysql();
         ResultSet rs = banco.exQuery(query);
-        while (rs.next()) {
-            estados.add(new TEstado(rs.getString("id"), rs.getString("nome"), rs.getString("uf")));
-        }
-        return estados;
-    }
-
-    public List<TCidade> listaCidadePorEstado(String idEstado) throws SQLException {
-        List<TCidade> cidades = new ArrayList<>();
-        String query = "SELECT * FROM cidade WHERE estado=" + idEstado + ";";
-        ConexaoMysql banco = new ConexaoMysql();
-        ResultSet rs = banco.exQuery(query);
-        while (rs.next()) {
-            cidades.add(new TCidade(rs.getString("id"), rs.getString("nome")));
-        }
-        return cidades;
+        return rs.wasNull();
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package controller;
 
-import api.Erro;
+import api.Mensagem;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +33,6 @@ public class CCadastroCliente {
     private JFormattedTextField ftfCnpj;
     private JComboBox cbConsumidorFinal;
 
-
     public TCadastroJuridica completaCliente() {
         TCadastroJuridica colaborador = new TCadastroJuridica();
         colaborador.setRazaoSocial(tfRazaoSocial.getText());
@@ -44,8 +43,6 @@ public class CCadastroCliente {
         colaborador.setTelefone(tfTelefone.getText());
         colaborador.setContribuinte(tfContribuinte.getText());
         colaborador.setConsumidorFinal(getCbConsumidorFinal().getSelectedItem().toString());
-        colaborador.setIdEndereco(getEndereco().getId());
-        System.out.println(colaborador.getIdEndereco());
         colaborador.setEmail(tfEmail.getText());
         colaborador.setObservacoes(taObservacoes.getText());
         return colaborador;
@@ -53,14 +50,17 @@ public class CCadastroCliente {
 
     public void cadastraCliente() {
         TCadastroJuridica colaborador = completaCliente();
-
         try {
-            getEndereco().setId(new MEndereco().novoEndereco(endereco));
-            if (getEndereco().getId().equals("-1")) {
-                new Erro().erroCadastro();
-            }
-            if (new MCadastroCliente().novoCadastro(colaborador)) {
-
+            if (new MCadastroCliente().verificaCadastroExiste(colaborador.getCnpj())) {
+                if (new MEndereco().novoEndereco(endereco)) {
+                    if (new MCadastroCliente().novoCadastro(colaborador)) {
+                        new Mensagem().sucessoCadastroCliente();
+                    }
+                } else {
+                    new Mensagem().erroCadastro();
+                }
+            } else {
+                new Mensagem().cadastroClienteExistente();
             }
         } catch (SQLException ex) {
             Logger.getLogger(CCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);

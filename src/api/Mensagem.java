@@ -11,9 +11,17 @@ import javax.swing.JOptionPane;
  *
  * @author leo_m
  */
-public class Erro {
+public class Mensagem {
 
     public void erroCadastro() {
         JOptionPane.showMessageDialog(null, "Erro ao Cadastrar, entre em contato com a equipe técnica.");
+    }
+
+    public void sucessoCadastroCliente() {
+        JOptionPane.showMessageDialog(null, "Cliente cadastrao com sucesso.");
+    }
+
+    public void cadastroClienteExistente() {
+        JOptionPane.showMessageDialog(null, "Cliente já cadastrado.");
     }
 }

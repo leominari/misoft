@@ -5,8 +5,11 @@
  */
 package view;
 
+import api.Janela;
 import controller.CLogin;
 import java.awt.Color;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -182,8 +185,9 @@ public class VLogin extends javax.swing.JFrame {
             }
 
             if (lg.doLogin(user)) {
-                VCadastroCliente cc = new VCadastroCliente(user);
-                cc.setVisible(rootPaneCheckingEnabled);
+                VMenu vm = new VMenu(user);
+                vm.setVisible(true);
+                new Janela().btnBarra(vm);
                 this.dispose();
             }
 
