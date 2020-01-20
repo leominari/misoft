@@ -24,8 +24,6 @@ public class MCadastroCliente {
                 + "','" + colaborador.getInscricaoEstadual() + "','" + colaborador.getTelefone() + "','"
                 + colaborador.getEmail() + "','" + colaborador.getObservacoes() + "','" + colaborador.getContribuinte() + "','"
                 + colaborador.getConsumidorFinal() + "',(SELECT MAX(id) AS id FROM endereco));";
-        System.out.println(query);
-        System.out.println("foi krl");
         return banco.upQuery(query);
 
     }

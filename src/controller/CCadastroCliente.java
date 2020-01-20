@@ -55,7 +55,7 @@ public class CCadastroCliente {
             if (new MCadastroCliente().verificaCadastroExiste(colaborador.getCnpj())) {
                 if (new MEndereco().novoEndereco(endereco)) {
                     if (new MCadastroCliente().novoCadastro(colaborador)) {
-                        new Mensagem().sucessoCadastroCliente();
+                        new Mensagem().sucessoCadastro();
                     }
                 } else {
                     new Mensagem().erroCadastro();
