@@ -11,9 +11,9 @@
 | v0.35  | `Biblioteca adicionada ao projeto`                             |
 | v0.40  | `Cadastro Pessoa Jurídica Finalizado`                          |
 | v0.42  | `Telas de Categoria e Produto adicionadas e quase finalizadas` |
-
+_________________________________________________
  - [X] Conexão com o Banco de Dados
-
+_________________________________________________
  - [X] Tela Login
  - [X] Login
  - [X] Model Login
