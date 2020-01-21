@@ -21,8 +21,8 @@ public class Mensagem {
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso.");
     }
 
-
-    public void cadastroClienteExistente() {
-        JOptionPane.showMessageDialog(null, "Cliente já cadastrado.");
+    public void cadastroExistente(String tipo) {
+        JOptionPane.showMessageDialog(null, tipo + " já cadastrado.");
     }
+
 }

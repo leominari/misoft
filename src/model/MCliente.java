@@ -15,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author leo_m
  */
-public class MCadastroCliente {
+public class MCliente {
 
     public boolean novoCadastro(TCadastroJuridica colaborador) throws SQLException {
         ConexaoMysql banco = new ConexaoMysql();

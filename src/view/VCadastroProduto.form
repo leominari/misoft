@@ -7,6 +7,21 @@
         <Property name="text" type="java.lang.String" value="jTextField1"/>
       </Properties>
     </Component>
+    <Container class="javax.swing.JLayeredPane" name="jLayeredPane1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -57,7 +72,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="pInfos" max="32767" attributes="0"/>
-                  <Component id="pComercial" pref="468" max="32767" attributes="0"/>
+                  <Component id="pComercial" max="32767" attributes="0"/>
                   <Component id="pRodape" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
@@ -97,41 +112,67 @@
                               <Component id="tfDescricao" pref="203" max="32767" attributes="0"/>
                               <Component id="tfIdentificacao" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lbUnidadeVenda" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbCategoria" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbCategoria" alignment="0" max="32767" attributes="0"/>
-                              <Component id="tfUnidadeVenda" alignment="0" min="-2" pref="135" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbCategoria" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbCategoria" alignment="0" min="-2" pref="135" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnNovaCategoria" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbUnidadeVenda" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tfUnidadeVenda" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbCodigo" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tfCodigo" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="19" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lbIdentificacao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="lbCodigo" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lbIdentificacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="tfIdentificacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnNovaCategoria" alignment="3" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lbDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbUnidadeVenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="tfDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tfUnidadeVenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tfCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="tfIdentificacao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lbDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbUnidadeVenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="tfDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="tfUnidadeVenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="43" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -162,6 +203,9 @@
                       <StringArray count="0"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cbCategoriaFocusGained"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Object&gt;"/>
                   </AuxValues>
@@ -172,6 +216,24 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="tfUnidadeVenda">
+                </Component>
+                <Component class="javax.swing.JButton" name="btnNovaCategoria">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="+"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovaCategoriaActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lbCodigo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="tfCodigo">
                 </Component>
               </SubComponents>
             </Container>
@@ -355,12 +417,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="468" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="471" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="355" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="372" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -377,12 +439,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="468" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="471" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="355" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="372" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

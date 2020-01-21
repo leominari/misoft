@@ -5,14 +5,40 @@
  */
 package tipos;
 
+import java.sql.SQLException;
+import java.util.List;
+import model.MCategoria;
+
 /**
  *
  * @author leo_m
  */
 public class TCategoria {
+
     private String id;
     private String categoria;
     private String subCategoria;
+
+    public TCategoria(String id, String categoria, String subcategoria) {
+        setId(id);
+        setCategoria(categoria);
+        setSubCategoria(subCategoria);
+    }
+
+    public TCategoria() {
+
+    }
+
+    @Override
+    public String toString() {
+        return getCategoria(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    public List<TCategoria> getCategorias() throws SQLException {
+        return new MCategoria().listaCategorias();
+    }
 
     /**
      * @return the id
@@ -55,4 +81,11 @@ public class TCategoria {
     public void setSubCategoria(String subCategoria) {
         this.subCategoria = subCategoria;
     }
+
+    public void toStr() {
+        System.out.println(getId());
+        System.out.println(getCategoria());
+        System.out.println(getSubCategoria());
+    }
+
 }

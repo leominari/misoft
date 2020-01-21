@@ -13,12 +13,12 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import model.MCadastroCliente;
+import model.MCliente;
 import model.MEndereco;
 import tipos.TCadastroJuridica;
 import tipos.TEndereco;
 
-public class CCadastroCliente {
+public class CCliente {
 
     private TEndereco endereco;
     private JTextField tfCapitalSocial;
@@ -52,19 +52,19 @@ public class CCadastroCliente {
         TCadastroJuridica colaborador = completaCliente();
         colaborador.toStr();
         try {
-            if (new MCadastroCliente().verificaCadastroExiste(colaborador.getCnpj())) {
+            if (new MCliente().verificaCadastroExiste(colaborador.getCnpj())) {
                 if (new MEndereco().novoEndereco(endereco)) {
-                    if (new MCadastroCliente().novoCadastro(colaborador)) {
+                    if (new MCliente().novoCadastro(colaborador)) {
                         new Mensagem().sucessoCadastro();
                     }
                 } else {
                     new Mensagem().erroCadastro();
                 }
             } else {
-                new Mensagem().cadastroClienteExistente();
+                new Mensagem().cadastroExistente("Cliente");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

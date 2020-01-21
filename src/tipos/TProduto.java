@@ -11,12 +11,13 @@ package tipos;
  */
 public class TProduto {
 
+    private int codigo;
     private String nome;
     private String descricao;
     private String unidade;
-    private String custo;
-    private String precominimo;
-    private String preco;
+    private Double custo;
+    private Double precominimo;
+    private Double preco;
     private String categoria;
 
     /**
@@ -64,42 +65,42 @@ public class TProduto {
     /**
      * @return the custo
      */
-    public String getCusto() {
+    public Double getCusto() {
         return custo;
     }
 
     /**
      * @param custo the custo to set
      */
-    public void setCusto(String custo) {
+    public void setCusto(Double custo) {
         this.custo = custo;
     }
 
     /**
      * @return the precominimo
      */
-    public String getPrecominimo() {
+    public Double getPrecominimo() {
         return precominimo;
     }
 
     /**
      * @param precominimo the precominimo to set
      */
-    public void setPrecominimo(String precominimo) {
+    public void setPrecominimo(Double precominimo) {
         this.precominimo = precominimo;
     }
 
     /**
      * @return the preco
      */
-    public String getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
     /**
      * @param preco the preco to set
      */
-    public void setPreco(String preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
@@ -115,6 +116,20 @@ public class TProduto {
      */
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public int getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
 }

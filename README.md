@@ -11,6 +11,7 @@
 | v0.35  | `Biblioteca adicionada ao projeto`                             |
 | v0.40  | `Cadastro Pessoa Jurídica Finalizado`                          |
 | v0.42  | `Telas de Categoria e Produto adicionadas e quase finalizadas` |
+| v0.45  | `Telas de Categoria e Produto finalizadas`                     |
 _________________________________________________
  - [X] Conexão com o Banco de Dados
 _________________________________________________
@@ -28,7 +29,7 @@ _________________________________________________
 _________________________________________________
  - [X] Tela Cadastro Produto
  - [X] Cadastro de Produto
- - [ ] Model de Produto
+ - [X] Model de Produto
 _________________________________________________
  - [ ] Tela Cadastro Pedido
  - [ ] Cadastro Pedido

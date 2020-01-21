@@ -10,20 +10,21 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.MCadastroCategoria;
+import model.MCategoria;
 import tipos.TCategoria;
 
 /**
  *
  * @author leo_m
  */
-public class CCadastroCategoria {
+public class CCategoria {
 
     private Mensagem msg;
 
     public boolean cadastraCategoria(TCategoria categoria) {
+        msg = new Mensagem();
         try {
-            if (new MCadastroCategoria().novaCategoria(categoria)) {
+            if (new MCategoria().novaCategoria(categoria)) {
                 msg.sucessoCadastro();
                 return true;
             } else {
@@ -31,7 +32,7 @@ public class CCadastroCategoria {
                 return false;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CCadastroCategoria.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

@@ -6,8 +6,11 @@
 package view;
 
 import api.Janela;
-import controller.CCadastroCategoria;
-import model.MCadastroCategoria;
+import controller.CCategoria;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tipos.TCategoria;
 
 /**
@@ -15,6 +18,19 @@ import tipos.TCategoria;
  * @author leo_m
  */
 public class VCadastroCategoria extends javax.swing.JFrame {
+
+    private void preCarregamento() {
+
+        try {
+            List<TCategoria> cat = new TCategoria().getCategorias();
+            for (TCategoria i : cat) {
+                cbSubCategoria.addItem(i);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VCadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private void preencheCategoria() {
         categoria.setCategoria(tfCategoria.getText());
@@ -33,7 +49,8 @@ public class VCadastroCategoria extends javax.swing.JFrame {
 
     private void iniciaComponentes() {
         categoria = new TCategoria();
-        controller = new CCadastroCategoria();
+        controller = new CCategoria();
+//        preCarregamento();
         ckSemSubCategoria.setSelected(true);
         cbSubCategoria.setEnabled(false);
     }
@@ -162,10 +179,9 @@ public class VCadastroCategoria extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (verificaCampos()) {
-            System.out.println("salve");
             preencheCategoria();
             if (controller.cadastraCategoria(categoria)) {
-               
+                this.dispose();
             }
         } else {
 
@@ -174,9 +190,12 @@ public class VCadastroCategoria extends javax.swing.JFrame {
 
     private void ckSemSubCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckSemSubCategoriaActionPerformed
         if (ckSemSubCategoria.isSelected()) {
+            cbSubCategoria.removeAllItems();
             cbSubCategoria.setEnabled(false);
         } else {
             cbSubCategoria.setEnabled(true);
+            cbSubCategoria.removeAllItems();
+            preCarregamento();
         }
     }//GEN-LAST:event_ckSemSubCategoriaActionPerformed
 
@@ -215,7 +234,7 @@ public class VCadastroCategoria extends javax.swing.JFrame {
         });
     }
 
-    private CCadastroCategoria controller;
+    private CCategoria controller;
     private TCategoria categoria;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

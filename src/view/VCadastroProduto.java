@@ -6,9 +6,13 @@
 package view;
 
 import api.Janela;
-import controller.CCadastroCliente;
-import controller.CCadastroProduto;
+import controller.CProduto;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import tipos.TCategoria;
 import tipos.TProduto;
 
 /**
@@ -16,6 +20,19 @@ import tipos.TProduto;
  * @author leo_m
  */
 public class VCadastroProduto extends javax.swing.JFrame {
+
+    private void preCarregamento() {
+
+        try {
+            List<TCategoria> cat = new TCategoria().getCategorias();
+            for (TCategoria i : cat) {
+                cbCategoria.addItem(i);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VCadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private boolean verificaCampos() {
         Janela campo = new Janela();
@@ -27,18 +44,24 @@ public class VCadastroProduto extends javax.swing.JFrame {
 
     private void iniciaComponentes() {
         produto = new TProduto();
-        controller = new CCadastroProduto();
+        controller = new CProduto();
+    }
+
+    private String virgulaPonto(String text) {
+        return text.replaceAll(",", ".");
     }
 
     private void preecheProduto() {
         if (verificaCampos()) {
             produto.setNome(tfIdentificacao.getText());
             produto.setDescricao(tfDescricao.getText());
-//        produto.setCategoria();
+            TCategoria ctg = (TCategoria) cbCategoria.getSelectedItem();
+            produto.setCategoria(ctg.getId());
             produto.setUnidade(tfUnidadeVenda.getText());
-            produto.setPreco(ftfPreco.getText());
-            produto.setPrecominimo(ftfPrecoMinimo.getText());
-            produto.setCusto(ftfCusto.getText());
+            produto.setPreco(Double.parseDouble(virgulaPonto(ftfPreco.getText())));
+            produto.setPrecominimo(Double.parseDouble(virgulaPonto(ftfPrecoMinimo.getText())));
+            produto.setCusto(Double.parseDouble(virgulaPonto(ftfCusto.getText())));
+            produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
         } else {
             JOptionPane.showMessageDialog(null, "Preencha os campos obrigatórios.");
         }
@@ -50,6 +73,7 @@ public class VCadastroProduto extends javax.swing.JFrame {
     public VCadastroProduto() {
         initComponents();
         iniciaComponentes();
+        preCarregamento();
 
     }
 
@@ -63,6 +87,7 @@ public class VCadastroProduto extends javax.swing.JFrame {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         tpMenu = new javax.swing.JTabbedPane();
         jGeral = new javax.swing.JPanel();
         pInfos = new javax.swing.JPanel();
@@ -74,6 +99,9 @@ public class VCadastroProduto extends javax.swing.JFrame {
         cbCategoria = new javax.swing.JComboBox<Object>();
         lbUnidadeVenda = new javax.swing.JLabel();
         tfUnidadeVenda = new javax.swing.JTextField();
+        btnNovaCategoria = new javax.swing.JButton();
+        lbCodigo = new javax.swing.JLabel();
+        tfCodigo = new javax.swing.JTextField();
         pComercial = new javax.swing.JPanel();
         lbCusto = new javax.swing.JLabel();
         lbPreco = new javax.swing.JLabel();
@@ -92,6 +120,17 @@ public class VCadastroProduto extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pInfos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -102,7 +141,23 @@ public class VCadastroProduto extends javax.swing.JFrame {
 
         lbCategoria.setText("Categoria");
 
+        cbCategoria.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbCategoriaFocusGained(evt);
+            }
+        });
+
         lbUnidadeVenda.setText("Unidade de Venda");
+
+        btnNovaCategoria.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnNovaCategoria.setText("+");
+        btnNovaCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaCategoriaActionPerformed(evt);
+            }
+        });
+
+        lbCodigo.setText("Código");
 
         javax.swing.GroupLayout pInfosLayout = new javax.swing.GroupLayout(pInfos);
         pInfos.setLayout(pInfosLayout);
@@ -115,34 +170,52 @@ public class VCadastroProduto extends javax.swing.JFrame {
                     .addComponent(lbDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                     .addComponent(tfIdentificacao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbUnidadeVenda)
-                    .addComponent(lbCategoria)
-                    .addComponent(cbCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfUnidadeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40))
+                .addGap(18, 18, 18)
+                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pInfosLayout.createSequentialGroup()
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbCategoria)
+                            .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNovaCategoria))
+                    .addGroup(pInfosLayout.createSequentialGroup()
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbUnidadeVenda)
+                            .addComponent(tfUnidadeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbCodigo)
+                            .addComponent(tfCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
         pInfosLayout.setVerticalGroup(
             pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pInfosLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pInfosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbIdentificacao)
-                    .addComponent(lbCategoria))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfIdentificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDescricao)
-                    .addComponent(lbUnidadeVenda))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfUnidadeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pInfosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lbCodigo)
+                        .addGap(26, 26, 26))
+                    .addGroup(pInfosLayout.createSequentialGroup()
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbIdentificacao)
+                            .addComponent(lbCategoria))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfIdentificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNovaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDescricao)
+                            .addComponent(lbUnidadeVenda))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pInfosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfUnidadeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(24, 24, 24))
         );
 
         pComercial.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comercial", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -158,6 +231,7 @@ public class VCadastroProduto extends javax.swing.JFrame {
         lbRS2.setText("R$");
 
         lbRS3.setText("R$");
+
 
         javax.swing.GroupLayout pComercialLayout = new javax.swing.GroupLayout(pComercial);
         pComercial.setLayout(pComercialLayout);
@@ -252,7 +326,7 @@ public class VCadastroProduto extends javax.swing.JFrame {
         jGeralLayout.setHorizontalGroup(
             jGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pInfos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 468, Short.MAX_VALUE)
+            .addComponent(pComercial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pRodape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jGeralLayout.setVerticalGroup(
@@ -272,11 +346,11 @@ public class VCadastroProduto extends javax.swing.JFrame {
         jComercial.setLayout(jComercialLayout);
         jComercialLayout.setHorizontalGroup(
             jComercialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+            .addGap(0, 471, Short.MAX_VALUE)
         );
         jComercialLayout.setVerticalGroup(
             jComercialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 355, Short.MAX_VALUE)
+            .addGap(0, 372, Short.MAX_VALUE)
         );
 
         tpMenu.addTab("Comercial", jComercial);
@@ -285,11 +359,11 @@ public class VCadastroProduto extends javax.swing.JFrame {
         jFinanceiro.setLayout(jFinanceiroLayout);
         jFinanceiroLayout.setHorizontalGroup(
             jFinanceiroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+            .addGap(0, 471, Short.MAX_VALUE)
         );
         jFinanceiroLayout.setVerticalGroup(
             jFinanceiroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 355, Short.MAX_VALUE)
+            .addGap(0, 372, Short.MAX_VALUE)
         );
 
         tpMenu.addTab("Financeiro", jFinanceiro);
@@ -310,11 +384,24 @@ public class VCadastroProduto extends javax.swing.JFrame {
 
     private void btnCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarMouseClicked
         preecheProduto();
+        controller.cadastraProduto(produto);
+        dispose();
     }//GEN-LAST:event_btnCadastrarMouseClicked
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         dispose();
     }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnNovaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaCategoriaActionPerformed
+        VCadastroCategoria cc = new VCadastroCategoria();
+        new Janela().btnBarra(cc);
+        cc.setVisible(true);
+    }//GEN-LAST:event_btnNovaCategoriaActionPerformed
+
+    private void cbCategoriaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbCategoriaFocusGained
+        cbCategoria.removeAllItems();
+        preCarregamento();        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCategoriaFocusGained
 
     /**
      * @param args the command line arguments
@@ -351,11 +438,12 @@ public class VCadastroProduto extends javax.swing.JFrame {
         });
     }
 
-    private CCadastroProduto controller;
+    private CProduto controller;
     private TProduto produto;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnNovaCategoria;
     private javax.swing.JComboBox<Object> cbCategoria;
     private javax.swing.JFormattedTextField ftfCusto;
     private javax.swing.JFormattedTextField ftfPreco;
@@ -363,8 +451,10 @@ public class VCadastroProduto extends javax.swing.JFrame {
     private javax.swing.JPanel jComercial;
     private javax.swing.JPanel jFinanceiro;
     private javax.swing.JPanel jGeral;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbCategoria;
+    private javax.swing.JLabel lbCodigo;
     private javax.swing.JLabel lbCusto;
     private javax.swing.JLabel lbDescricao;
     private javax.swing.JLabel lbIdentificacao;
@@ -377,6 +467,7 @@ public class VCadastroProduto extends javax.swing.JFrame {
     private javax.swing.JPanel pComercial;
     private javax.swing.JPanel pInfos;
     private javax.swing.JPanel pRodape;
+    private javax.swing.JTextField tfCodigo;
     private javax.swing.JTextField tfDescricao;
     private javax.swing.JTextField tfIdentificacao;
     private javax.swing.JTextField tfUnidadeVenda;

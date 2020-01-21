@@ -9,7 +9,7 @@ import api.Janela;
 import tipos.TEndereco;
 import tipos.TEstado;
 import javax.swing.JOptionPane;
-import controller.CCadastroCliente;
+import controller.CCliente;
 import java.awt.Color;
 import tipos.TCidade;
 import java.sql.SQLException;
@@ -96,7 +96,7 @@ public class VCadastroClienteJuridica extends javax.swing.JFrame {
         } catch (SQLException e) {
         }
         clienteEnd = new TEndereco();
-        controller = new CCadastroCliente();
+        controller = new CCliente();
         formataCampos();
 //        debugDados();
     }
@@ -627,7 +627,7 @@ public class VCadastroClienteJuridica extends javax.swing.JFrame {
 
     }
 
-    private CCadastroCliente controller;
+    private CCliente controller;
     private TCadastroJuridica novoUsuario;
     private TUsuario user;
     private TEndereco clienteEnd;
