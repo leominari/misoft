@@ -5,12 +5,19 @@
  */
 package tipos;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.MProduto;
+
 /**
  *
  * @author leo_m
  */
 public class TProduto {
 
+    private String id;
     private int codigo;
     private String nome;
     private String descricao;
@@ -19,6 +26,22 @@ public class TProduto {
     private Double precominimo;
     private Double preco;
     private String categoria;
+
+    public TProduto(String id, int codigo, String nome, String descricao, String unidade, double custo, double precominimo, double preco, String categoria) {
+        setId(id);
+        setCodigo(codigo);
+        setNome(nome);
+        setDescricao(descricao);
+        setUnidade(unidade);
+        setCusto(custo);
+        setPrecominimo(precominimo);
+        setPreco(preco);
+        setCategoria(categoria);
+    }
+
+    public TProduto() {
+
+    }
 
     /**
      * @return the nome
@@ -131,5 +154,35 @@ public class TProduto {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<TProduto> getProdutos() {
+        try {
+            return new MProduto().listaProdutos();
+        } catch (SQLException ex) {
+            Logger.getLogger(TProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return getNome(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 }

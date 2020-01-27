@@ -51,9 +51,16 @@ public class VLogin extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
+    
+    private void test(){
+        tfUsuario.setText("admin");
+        pfSenha.setText("admin");
+    }
+   
     public VLogin() {
         initComponents();
         user = new TUsuario();
+        test();
     }
 
     /**

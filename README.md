@@ -12,6 +12,7 @@
 | v0.40  | `Cadastro Pessoa Jurídica Finalizado`                          |
 | v0.42  | `Telas de Categoria e Produto adicionadas e quase finalizadas` |
 | v0.45  | `Telas de Categoria e Produto finalizadas`                     |
+| v0.48  | `Tela de Cadastro de Pedido quase finalizada`                  |
 _________________________________________________
  - [X] Conexão com o Banco de Dados
 _________________________________________________
@@ -31,8 +32,8 @@ _________________________________________________
  - [X] Cadastro de Produto
  - [X] Model de Produto
 _________________________________________________
- - [ ] Tela Cadastro Pedido
- - [ ] Cadastro Pedido
+ - [X] Tela Cadastro Pedido
+ - [X] Cadastro Pedido
  - [ ] Model Cadastro Pedido
  _________________________________________________
  - [ ] Tela Cadastro Colaborador

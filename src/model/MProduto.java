@@ -8,6 +8,8 @@ package model;
 import api.ConexaoMysql;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tipos.TProduto;
@@ -47,5 +49,26 @@ public class MProduto {
             Logger.getLogger(MProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public List<TProduto> listaProdutos() throws SQLException {
+        List<TProduto> produtos = new ArrayList<>();
+        String query = "SELECT * FROM produto ORDER BY nome;";
+        ConexaoMysql banco = new ConexaoMysql();
+        ResultSet rs = banco.exQuery(query);
+        while (rs.next()) {
+            produtos.add(new TProduto(
+                    rs.getString("id"),
+                    rs.getInt("codigo"),
+                    rs.getString("nome"),
+                    rs.getString("descricao"),
+                    rs.getString("unidade"),
+                    rs.getDouble("custo"),
+                    rs.getDouble("precominimo"),
+                    rs.getDouble("preco"),
+                    rs.getString("categoria")
+            ));
+        }
+        return produtos;
     }
 }
